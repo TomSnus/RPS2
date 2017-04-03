@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RPS</string>
+    <string name="action_show_history">History</string>
+    <string name="action_delete_all_entries">Delete History</string>
 </resources>

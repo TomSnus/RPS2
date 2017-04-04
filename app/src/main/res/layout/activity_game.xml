@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
- >
+    android:background="@android:color/darker_gray">
 
     <LinearLayout
         android:id="@+id/label_group"
@@ -75,15 +75,15 @@
         android:id="@+id/tv_winpercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAlignment="center"
         android:layout_above="@+id/btn_group"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="17dp" />
+        android:layout_marginBottom="17dp"
+        android:text="TextView"
+        android:textAlignment="center" />
 
     <LinearLayout
         android:id="@+id/btn_group"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
 
@@ -92,26 +92,31 @@
 
         <ImageButton
             android:id="@+id/btn_scissors"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_weight="1"
             android:adjustViewBounds="false"
             android:cropToPadding="false"
+            android:scaleType="centerInside"
             app:srcCompat="@drawable/scissors" />
 
         <ImageButton
             android:id="@+id/btn_paper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"
+            android:scaleType="centerInside"
             app:srcCompat="@drawable/paper" />
 
         <ImageButton
 
             android:id="@+id/btn_rock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_weight="1"
+            android:scaleType="centerInside"
             app:srcCompat="@drawable/rock" />
     </LinearLayout>
 </RelativeLayout>

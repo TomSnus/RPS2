@@ -26,13 +26,13 @@ public class AI {
     public AI() {
     }
 
-    public static String calculate(List<Game> gamesHistory) {
+    public static Pick calculate(List<Game> gamesHistory) {
         possiblePicks.clear();
         Random rng1;
         if(gamesHistory.size() < 4) {
             rng1 = new Random();
             Log.v("AI", "no Pattern found -> returning rng value");
-            return categories[rng1.nextInt(3)];
+            return new Pick(categories[rng1.nextInt(3)], Pick.getImageId(categories[rng1.nextInt(3)]));
         } else {
             if(gamesHistory.size() > 4) {
                 Log.v("AI", "Searching with pattern size: 4");
@@ -52,7 +52,7 @@ public class AI {
             if(possiblePicks.size() <= 0) {
                 rng1 = new Random();
                 Log.v("AI", "no Pattern found -> returning rng value");
-                return categories[rng1.nextInt(3)];
+                return new Pick(categories[rng1.nextInt(3)], Pick.getImageId(categories[rng1.nextInt(3)]));
             } else {
                 LinkedList rng = new LinkedList(possiblePicks.entrySet());
                 Collections.sort(rng, new Comparator() {
@@ -76,8 +76,8 @@ public class AI {
         }
     }
 
-    private static String counterPick(String possiblePick) {
-        return possiblePick.equals("ROCK")?"PAPER":(possiblePick.equals("PAPER")?"SCISSORS":"ROCK");
+    private static Pick counterPick(String possiblePick) {
+        return possiblePick.equals("ROCK")?new Pick("PAPER", R.drawable.paper):(possiblePick.equals("PAPER")?new Pick("SCISSORS", R.drawable.scissors):new Pick("ROCK", R.drawable.rock));
     }
 
     private static void searchForPattern(List<Game> gamesHistory, List<Game> pattern, int accordanceMax) {

@@ -5,17 +5,20 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray">
+    android:background="@android:color/darker_gray"
+    android:backgroundTint="@color/colorAccent">
 
     <LinearLayout
+
         android:id="@+id/label_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Player Pick"
@@ -23,7 +26,7 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="AI Pick"
@@ -31,12 +34,25 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Result"
             android:textAlignment="center" />
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_result_big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/result_group"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:id="@+id/result_group"
@@ -45,7 +61,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal">
 
         <TextView
@@ -53,22 +69,48 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/tv_aipick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/tv_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:textAlignment="center" />
 
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/resultImag_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_winpercentage"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/image_playerpick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"
+            app:srcCompat="@drawable/paper" />
+
+        <ImageView
+            android:id="@+id/image_aipick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/scissors" />
     </LinearLayout>
 
     <TextView
@@ -96,6 +138,7 @@
             android:layout_height="90dp"
             android:layout_weight="1"
             android:adjustViewBounds="false"
+            android:backgroundTint="@android:color/holo_green_dark"
             android:cropToPadding="false"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/scissors" />
@@ -106,6 +149,7 @@
             android:layout_height="90dp"
             android:layout_weight="1"
             android:adjustViewBounds="false"
+            android:backgroundTint="@android:color/holo_green_dark"
             android:cropToPadding="false"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/paper" />
@@ -116,8 +160,10 @@
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_weight="1"
+            android:backgroundTint="@android:color/holo_green_dark"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/rock" />
     </LinearLayout>
+
 </RelativeLayout>
 

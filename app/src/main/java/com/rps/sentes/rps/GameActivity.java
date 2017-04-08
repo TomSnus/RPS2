@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,11 +29,18 @@ public class GameActivity extends AppCompatActivity {
     private TextView winpercentageView;
     private AiDbHelper mDbHelper;
     private List<Game> playedGames;
-
+    private ImageView playerPickImage;
+    private ImageView aiPickImage;
+    private TextView resultViewBig;
     public GameActivity() {
     }
 
     protected void onCreate(Bundle savedInstanceState) {
+        //Init Picks
+        final Pick paper = new Pick("PAPER", R.drawable.paper);
+        final Pick rock = new Pick("ROCK", R.drawable.rock);
+        final Pick scissors = new Pick("SCISSORS", R.drawable.scissors);
+
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_game);
         ImageButton btn_paper = (ImageButton)this.findViewById(R.id.btn_paper);
@@ -42,24 +51,32 @@ public class GameActivity extends AppCompatActivity {
         this.aipickView = (TextView)this.findViewById(R.id.tv_aipick);
         this.winpercentageView = (TextView)this.findViewById(R.id.tv_winpercentage);
         this.mDbHelper = new AiDbHelper(this);
+        this.playerPickImage = (ImageView) findViewById(R.id.image_playerpick);
+        this.aiPickImage = (ImageView) findViewById(R.id.image_aipick);
+        this.resultViewBig = (TextView) findViewById(R.id.tv_result_big);
+
+        this.playerPickImage.setVisibility(View.GONE);
+        this.aiPickImage.setVisibility(View.GONE);
+        this.resultViewBig.setVisibility(View.GONE);
+
         this.fillList();
         this.displayDatabaseInfo();
         btn_paper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            calculateResult(Categories.PAPER);
+            calculateResult(paper);
             }
         });
         btn_rock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calculateResult(Categories.ROCK);
+                calculateResult(rock);
             }
         });
         btn_scissors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calculateResult(Categories.SCISSORS);
+                calculateResult(scissors);
             }
         });
     }
@@ -124,55 +141,71 @@ public class GameActivity extends AppCompatActivity {
         cursorTotal.moveToNext();
         int total = cursorTotal.getInt(0);
         double winpercentage = (double)wins / (double)total * 100.0D;
-        this.winpercentageView.setText("Win percentage: \n" + winpercentage + "%");
+        this.winpercentageView.setText("Win percentage: \n" + Math.round(winpercentage) + "%");
     }
 
-    private void calculateResult(Categories cat) {
+    private void calculateResult(Pick pick) {
         Results result = Results.DRAW;
-        String rngCat = AI.calculate(this.playedGames);
-        if(cat == Categories.PAPER) {
-            if(rngCat == Categories.PAPER.toString()) {
+        Pick aiPick = AI.calculate(this.playedGames);
+        if(pick.isPaper()) {
+            if(aiPick.isPaper()) {
                 result = Results.DRAW;
-            } else if(rngCat == Categories.ROCK.toString()) {
+            } else if(aiPick.isRock()) {
                 result = Results.WIN;
             } else {
                 result = Results.LOSS;
             }
-        } else if(cat == Categories.ROCK) {
-            if(rngCat == Categories.PAPER.toString()) {
+        } else if(pick.isRock()) {
+            if(aiPick.isPaper()) {
                 result = Results.LOSS;
-            } else if(rngCat == Categories.ROCK.toString()) {
+            } else if(aiPick.isRock()) {
                 result = Results.DRAW;
             } else {
                 result = Results.WIN;
             }
-        } else if(rngCat == Categories.SCISSORS.toString()) {
-            result = Results.DRAW;
-        } else if(rngCat == Categories.ROCK.toString()) {
-            result = Results.LOSS;
-        } else {
-            result = Results.WIN;
+        } else if(pick.isScissors()) {
+            if (aiPick.isScissors()) {
+                result = Results.DRAW;
+            } else if (aiPick.isRock()) {
+                result = Results.LOSS;
+            } else {
+                result = Results.WIN;
+            }
         }
-
         switch(result) {
             case DRAW:
                 this.resultView.setText("Draw");
+                this.resultViewBig.setText("Draw");
+                this.resultViewBig.setTextColor(Color.YELLOW);
                 break;
             case LOSS:
                 this.resultView.setText("Loss");
+                this.resultViewBig.setText("Loss");
+                this.resultViewBig.setTextColor(Color.RED);
                 break;
             case WIN:
                 this.resultView.setText("Win");
+                this.resultViewBig.setText("Win");
+                this.resultViewBig.setTextColor(Color.GREEN);
+                break;
         }
 
-        this.insertResult(cat, rngCat, result);
-        this.playerpickView.setText(cat.toString());
-        this.aipickView.setText(rngCat);
+        this.insertResult(pick, aiPick, result);
+        this.playerpickView.setText(pick.getName());
+        this.aipickView.setText(aiPick.getName());
+        this.aiPickImage.setImageResource(aiPick.getResource());
+        this.playerPickImage.setImageResource(pick.getResource());
+        this.aiPickImage.refreshDrawableState();
+
+
+        this.playerPickImage.setVisibility(View.VISIBLE);
+        this.aiPickImage.setVisibility(View.VISIBLE);
+        this.resultViewBig.setVisibility(View.VISIBLE);
     }
 
-    private void insertResult(Categories cat, String rngCat, Results gameResult) {
-        String playerPick = cat.toString();
-        String aiPick = rngCat.toString();
+    private void insertResult(Pick pick, Pick maiPick, Results gameResult) {
+        String playerPick = pick.getName();
+        String aiPick = maiPick.getName();
         String gameResultString = gameResult.toString();
         AiDbHelper mDbHelper = new AiDbHelper(this);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();

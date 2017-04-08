@@ -3,26 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="99"
     android:orientation="horizontal">
 
 
     <TextView
         android:id="@+id/item_playerPick"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView" />
+        android:layout_weight="33"
+        android:text="TextView"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/item_aipick"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView" />
+        android:layout_weight="33"
+
+        android:text="TextView"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/item_result"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="33"
+        android:text="Textview"
+        android:textAlignment="center" />
 </LinearLayout>
